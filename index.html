@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Data Mahasiswa</title>
+
+		<!-- CSS Package -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous"
+		/>
+
+		<!-- JS Package -->
+		<script
+			src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+			integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+			integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+			crossorigin="anonymous"
+		></script>
+		<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+		<!-- My CSS -->
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+
+	<body>
+		<div
+			id="loader"
+			class="position-absolute"
+			style="
+				background-color: rgba(0, 0, 0, 0.8);
+				width: 100vw;
+				height: 100vh;
+				top: 0;
+				left: 0;
+				z-index: 99999999999999;
+			"
+		>
+			<div
+				class="spinner-border text-info position-absolute"
+				role="status"
+				style="top: 42vh; left: 42vw; width: 4rem; height: 4rem"
+			>
+				<span class="sr-only"></span>
+			</div>
+		</div>
+		<div class="d-flex" id="wrapper">
+			<!-- Sidebar -->
+			<div class="bg-light border-right" id="sidebar-wrapper">
+				<div class="sidebar-heading">Manajemen Basis Data</div>
+				<div class="list-group" id="list-tab" role="tablist">
+					<a
+						class="list-group-item list-group-item-action active"
+						id="list-data-mahasiswa-list"
+						data-toggle="list"
+						href="#list-data-mahasiswa"
+						role="tab"
+						aria-controls="data-mahasiswa"
+						>Data Mahasiswa</a
+					>
+					<a
+						class="list-group-item list-group-item-action"
+						id="list-data-prodi-list"
+						data-toggle="list"
+						href="#list-data-prodi"
+						role="tab"
+						aria-controls="data-prodi"
+						>Data Prodi</a
+					>
+					<a
+						class="list-group-item list-group-item-action"
+						id="list-data-fakultas-list"
+						data-toggle="list"
+						href="#list-data-fakultas"
+						role="tab"
+						aria-controls="data-fakultas"
+						>Data Fakultas</a
+					>
+					<a
+						class="list-group-item list-group-item-action"
+						id="list-data-jenjang-pendidikan-list"
+						data-toggle="list"
+						href="#list-data-jenjang-pendidikan"
+						role="tab"
+						aria-controls="data-jenjang-pendidikan"
+						>Data Jenjang Pendidikan</a
+					>
+					<a
+						class="list-group-item list-group-item-action"
+						id="list-data-universitas-list"
+						data-toggle="list"
+						href="#list-data-universitas"
+						role="tab"
+						aria-controls="data-universitas"
+						>Data Universitas</a
+					>
+					<a
+						class="list-group-item list-group-item-action"
+						id="list-data-jenis-universitas-list"
+						data-toggle="list"
+						href="#list-data-jenis-universitas"
+						role="tab"
+						aria-controls="data-jenis-universitas"
+						>Data Jenis Universitas</a
+					>
+					<a
+						class="list-group-item list-group-item-action"
+						id="list-data-alamat-universitas-list"
+						data-toggle="list"
+						href="#list-data-alamat-universitas"
+						role="tab"
+						aria-controls="data-alamat-universitas"
+						>Data Alamat Universitas</a
+					>
+				</div>
+			</div>
+
+			<!-- Page Content -->
+			<div id="page-content-wrapper">
+				<nav
+					class="navbar navbar-expand-lg navbar-light bg-light border-bottom"
+				>
+					<button class="btn btn-light" id="menu-toggle">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+				</nav>
+
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="tab-content" id="nav-tabContent">
+								<div
+									class="tab-pane fade show active"
+									id="list-data-mahasiswa"
+									role="tabpanel"
+									aria-labelledby="list-data-mahasiswa-list"
+								>
+									<div class="row mt-3">
+										<div class="col-lg-12 text-center">
+											<h1>Data Mahasiswa</h1>
+										</div>
+										<div class="col-lg-12 d-flex justify-content-center mt-3">
+											<input
+												type="text"
+												class="form-control w-75"
+												placeholder="Search Data"
+												id="search-data-mahasiswa"
+											/>
+										</div>
+										<div class="col-lg-12 mt-5">
+											<input
+												type="number"
+												class="form-control"
+												placeholder="Total data yang muncul"
+												value="10"
+												id="showed-data-mahasiswa"
+											/>
+											<div class="table-responsive mt-3">
+												<table class="table table-striped">
+													<thead>
+														<tr>
+															<th scope="col">No</th>
+															<th scope="col">ID</th>
+															<th scope="col">Nim</th>
+															<th scope="col">Nama Depan</th>
+															<th scope="col">Nama Belakang</th>
+															<th scope="col">Email</th>
+															<th scope="col">Alamat</th>
+															<th scope="col">Tanggal Lahir</th>
+															<th scope="col">Tempat Lahir</th>
+															<th scope="col">No Hp</th>
+															<th scope="col">Kelamin</th>
+															<th scope="col">Angkatan</th>
+															<th scope="col">Prodi</th>
+															<th scope="col">Detail</th>
+															<th scope="col">Delete</th>
+														</tr>
+													</thead>
+													<tbody id="tbody-data-mahasiswa">
+														<!-- Isi Data -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<a
+										href="#"
+										id="button-create-data-mahasiswa"
+										data-toggle="modal"
+										data-target="#modal-create-data-mahasiswa"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											fill="currentColor"
+											class="bi bi-plus my-float"
+											viewBox="0 0 16 16"
+										>
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+											/>
+										</svg>
+									</a>
+								</div>
+								<div
+									class="tab-pane fade"
+									id="list-data-prodi"
+									role="tabpanel"
+									aria-labelledby="list-data-prodi-list"
+								>
+									<div class="row mt-3">
+										<div class="col-lg-12 text-center">
+											<h1>Data Prodi</h1>
+										</div>
+										<div class="col-lg-12 d-flex justify-content-center mt-3">
+											<input
+												type="text"
+												class="form-control w-75"
+												placeholder="Search Data"
+												id="search-data-prodi"
+											/>
+										</div>
+										<div class="col-lg-12 mt-5">
+											<input
+												type="number"
+												class="form-control"
+												placeholder="Total data yang muncul"
+												value="10"
+												id="showed-data-prodi"
+											/>
+											<div class="table-responsive mt-3">
+												<table class="table table-striped">
+													<thead>
+														<tr>
+															<th scope="col">No</th>
+															<th scope="col">ID</th>
+															<th scope="col">Nama Prodi</th>
+															<th scope="col">Fakultas</th>
+															<th scope="col">Jenjang Pendidikan</th>
+															<th scope="col">Universitas</th>
+															<th scope="col">Detail</th>
+															<th scope="col">Delete</th>
+														</tr>
+													</thead>
+													<tbody id="tbody-data-prodi">
+														<!-- Isi Data -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<a
+										href="#"
+										id="button-create-data-prodi"
+										data-toggle="modal"
+										data-target="#modal-create-data-prodi"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											fill="currentColor"
+											class="bi bi-plus my-float"
+											viewBox="0 0 16 16"
+										>
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+											/>
+										</svg>
+									</a>
+								</div>
+								<div
+									class="tab-pane fade"
+									id="list-data-fakultas"
+									role="tabpanel"
+									aria-labelledby="list-data-fakultas-list"
+								>
+									<div class="row mt-3">
+										<div class="col-lg-12 text-center">
+											<h1>Data Fakultas</h1>
+										</div>
+										<div class="col-lg-12 d-flex justify-content-center mt-3">
+											<input
+												type="text"
+												class="form-control w-75"
+												placeholder="Search Data"
+												id="search-data-fakultas"
+											/>
+										</div>
+										<div class="col-lg-12 mt-5">
+											<input
+												type="number"
+												class="form-control"
+												placeholder="Total data yang muncul"
+												value="10"
+												id="showed-data-fakultas"
+											/>
+											<div class="table-responsive mt-3">
+												<table class="table table-striped">
+													<thead>
+														<tr>
+															<th scope="col">No</th>
+															<th scope="col">ID</th>
+															<th scope="col">Nama Fakultas</th>
+														</tr>
+													</thead>
+													<tbody id="tbody-data-fakultas">
+														<!-- Isi Data -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<a
+										href="#"
+										id="button-create-data-fakultas"
+										data-toggle="modal"
+										data-target="#modal-create-data-fakultas"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											fill="currentColor"
+											class="bi bi-plus my-float"
+											viewBox="0 0 16 16"
+										>
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+											/>
+										</svg>
+									</a>
+								</div>
+								<div
+									class="tab-pane fade"
+									id="list-data-jenjang-pendidikan"
+									role="tabpanel"
+									aria-labelledby="list-data-jenjang-pendidikan-list"
+								>
+									<div class="row mt-3">
+										<div class="col-lg-12 text-center">
+											<h1>Data Jenjang Pendidikan</h1>
+										</div>
+										<div class="col-lg-12 d-flex justify-content-center mt-3">
+											<input
+												type="text"
+												class="form-control w-75"
+												placeholder="Search Data"
+												id="search-data-jenjang-pendidikan"
+											/>
+										</div>
+										<div class="col-lg-12 mt-5">
+											<input
+												type="number"
+												class="form-control"
+												placeholder="Total data yang muncul"
+												value="10"
+												id="showed-data-jenjang-pendidikan"
+											/>
+											<div class="table-responsive mt-3">
+												<table class="table table-striped">
+													<thead>
+														<tr>
+															<th scope="col">No</th>
+															<th scope="col">ID</th>
+															<th scope="col">Nama Jenjang</th>
+															<th scope="col">Detail</th>
+															<th scope="col">Delete</th>
+														</tr>
+													</thead>
+													<tbody id="tbody-data-jenjang-pendidikan">
+														<!-- Isi Data -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<a
+										href="#"
+										id="button-create-data-jenjang-pendidikan"
+										data-toggle="modal"
+										data-target="#modal-create-data-jenjang-pendidikan"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											fill="currentColor"
+											class="bi bi-plus my-float"
+											viewBox="0 0 16 16"
+										>
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+											/>
+										</svg>
+									</a>
+								</div>
+								<div
+									class="tab-pane fade"
+									id="list-data-universitas"
+									role="tabpanel"
+									aria-labelledby="list-data-universitas-list"
+								>
+									<div class="row mt-3">
+										<div class="col-lg-12 text-center">
+											<h1>Data Universitas</h1>
+										</div>
+										<div class="col-lg-12 d-flex justify-content-center mt-3">
+											<input
+												type="text"
+												class="form-control w-75"
+												placeholder="Search Data"
+												id="search-data-universitas"
+											/>
+										</div>
+										<div class="col-lg-12 mt-5">
+											<input
+												type="number"
+												class="form-control"
+												placeholder="Total data yang muncul"
+												value="10"
+												id="showed-data-universitas"
+											/>
+											<div class="table-responsive mt-3">
+												<table class="table table-striped">
+													<thead>
+														<tr>
+															<th scope="col">No</th>
+															<th scope="col">ID</th>
+															<th scope="col">Nama Universitas</th>
+															<th scope="col">Tanggal Berdiri</th>
+															<th scope="col">Alamat</th>
+															<th scope="col">Detail</th>
+															<th scope="col">Delete</th>
+														</tr>
+													</thead>
+													<tbody id="tbody-data-universitas">
+														<!-- Isi Data -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<a
+										href="#"
+										id="button-create-data-universitas"
+										data-toggle="modal"
+										data-target="#modal-create-data-universitas"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											fill="currentColor"
+											class="bi bi-plus my-float"
+											viewBox="0 0 16 16"
+										>
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+											/>
+										</svg>
+									</a>
+								</div>
+								<div
+									class="tab-pane fade"
+									id="list-data-jenis-universitas"
+									role="tabpanel"
+									aria-labelledby="list-data-jenis-universitas-list"
+								>
+									<div class="row mt-3">
+										<div class="col-lg-12 text-center">
+											<h1>Data Jenis Universitas</h1>
+										</div>
+										<div class="col-lg-12 d-flex justify-content-center mt-3">
+											<input
+												type="text"
+												class="form-control w-75"
+												placeholder="Search Data"
+												id="search-data-jenis-universitas"
+											/>
+										</div>
+										<div class="col-lg-12 mt-5">
+											<input
+												type="number"
+												class="form-control"
+												placeholder="Total data yang muncul"
+												value="10"
+												id="showed-data-jenis-universitas"
+											/>
+											<div class="table-responsive mt-3">
+												<table class="table table-striped">
+													<thead>
+														<tr>
+															<th scope="col">No</th>
+															<th scope="col">ID</th>
+															<th scope="col">Nama Jenis Universitas</th>
+															<th scope="col">Detail</th>
+															<th scope="col">Delete</th>
+														</tr>
+													</thead>
+													<tbody id="tbody-data-jenis-universitas">
+														<!-- Isi Data -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<a
+										href="#"
+										id="button-create-data-jenis-universitas"
+										data-toggle="modal"
+										data-target="#modal-create-data-jenis-universitas"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											fill="currentColor"
+											class="bi bi-plus my-float"
+											viewBox="0 0 16 16"
+										>
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+											/>
+										</svg>
+									</a>
+								</div>
+								<div
+									class="tab-pane fade"
+									id="list-data-alamat-universitas"
+									role="tabpanel"
+									aria-labelledby="list-data-alamat-universitas-list"
+								>
+									<div class="row mt-3">
+										<div class="col-lg-12 text-center">
+											<h1>Data Alamat Universitas</h1>
+										</div>
+										<div class="col-lg-12 d-flex justify-content-center mt-3">
+											<input
+												type="text"
+												class="form-control w-75"
+												placeholder="Search Data"
+												id="search-data-alamat-universitas"
+											/>
+										</div>
+										<div class="col-lg-12 mt-5">
+											<input
+												type="number"
+												class="form-control"
+												placeholder="Total data yang muncul"
+												value="10"
+												id="showed-data-alamat-universitas"
+											/>
+											<div class="table-responsive mt-3">
+												<table class="table table-striped">
+													<thead>
+														<tr>
+															<th scope="col">No</th>
+															<th scope="col">ID</th>
+															<th scope="col">Alamat Universitas</th>
+															<th scope="col">Detail</th>
+															<th scope="col">Delete</th>
+														</tr>
+													</thead>
+													<tbody id="tbody-data-alamat-universitas">
+														<!-- Isi Data -->
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<a
+										href="#"
+										id="button-create-data-alamat-universitas"
+										data-toggle="modal"
+										data-target="#modal-create-data-alamat-universitas"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="50"
+											height="50"
+											fill="currentColor"
+											class="bi bi-plus my-float"
+											viewBox="0 0 16 16"
+										>
+											<path
+												d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+											/>
+										</svg>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- List Data All Modals -->
+		<div id="list-all-modals">
+			<div id="modal-list-all-data">
+				<div id="all-data-mahasiswa">
+					<!-- Isi Data -->
+				</div>
+				<div id="all-data-prodi">
+					<!-- Isi Data -->
+				</div>
+				<div id="all-data-fakultas">
+					<!-- Isi Data -->
+				</div>
+				<div id="all-data-jenjang-pendidikan">
+					<!-- Isi Data -->
+				</div>
+				<div id="all-data-universitas">
+					<!-- Isi Data -->
+				</div>
+				<div id="all-data-jenis-universitas">
+					<!-- Isi Data -->
+				</div>
+				<div id="all-data-alamat-universitas">
+					<!-- Isi Data -->
+				</div>
+			</div>
+			<div id="modal-create-data">
+				<div
+					class="modal fade"
+					id="modal-create-data-mahasiswa"
+					tabindex="-1"
+					aria-labelledby="modal-create-data-mahasiswa-label"
+					aria-hidden="true"
+				>
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-create-data-mahasiswa-label">
+									Create Data Mahasiswa
+								</h5>
+								<button
+									type="button"
+									class="close"
+									data-dismiss="modal"
+									aria-label="Close"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form class="pb-4" id="form-create-data-mahasiswa">
+									<div class="form-group">
+										<label for="input-nim-data-mahasiswa">Nim</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-nim-data-mahasiswa"
+											required
+											placeholder="Masukkan Nim Mahasiswa"
+											maxlength="11"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-nama-depan-data-mahasiswa"
+											>Nama Depan</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="input-nama-depan-data-mahasiswa"
+											required
+											placeholder="Masukkan Nama Depan Mahasiswa"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-nama-belakang-data-mahasiswa"
+											>Nama Belakang</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="input-nama-belakang-data-mahasiswa"
+											required
+											placeholder="Masukkan Nama Belakang Mahasiswa"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-email-data-mahasiswa">Email</label>
+										<input
+											type="email"
+											class="form-control"
+											id="input-email-data-mahasiswa"
+											required
+											placeholder="Masukkan Email Mahasiswa"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-alamat-data-mahasiswa">Alamat</label>
+										<textarea
+											id="input-alamat-data-mahasiswa"
+											class="form-control"
+											rows="3"
+											required
+											placeholder="Masukkan Alamat Mahasiswa"
+										></textarea>
+									</div>
+									<div class="form-group">
+										<label for="input-tanggal-lahir-data-mahasiswa"
+											>Tanggal Lahir</label
+										>
+										<input
+											type="date"
+											class="form-control"
+											id="input-tanggal-lahir-data-mahasiswa"
+											required
+											placeholder="Masukkan Tanggal Lahir Mahasiswa"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-tempat-lahir-data-mahasiswa"
+											>Tempat Lahir</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="input-tempat-lahir-data-mahasiswa"
+											required
+											placeholder="Masukkan Tempat Lahir Mahasiswa"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-no-hp-data-mahasiswa">No Hp</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-no-hp-data-mahasiswa"
+											required
+											placeholder="Masukkan No Hp Mahasiswa"
+											maxlength="13"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-kelamin-data-mahasiswa">Kelamin</label>
+										<select
+											class="form-control"
+											id="input-kelamin-data-mahasiswa"
+										>
+											<option value="Pria">Pria</option>
+											<option value="Wanita">Wanita</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="input-angkatan-data-mahasiswa">Angkatan</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-angkatan-data-mahasiswa"
+											required
+											placeholder="Masukkan Angkatan Mahasiswa"
+											maxlength="4"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-prodi-data-mahasiswa">Prodi</label>
+										<input
+											type="number"
+											class="form-control"
+											id="input-prodi-data-mahasiswa"
+											required
+											placeholder="Masukkan Prodi Mahasiswa"
+										/>
+									</div>
+									<button
+										type="submit"
+										class="btn btn-primary"
+										id="submit-create-data-mahasiswa"
+									>
+										Submit
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					class="modal fade"
+					id="modal-create-data-prodi"
+					tabindex="-1"
+					aria-labelledby="modal-create-data-prodi-label"
+					aria-hidden="true"
+				>
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-create-data-prodi-label">
+									Create Data Prodi
+								</h5>
+								<button
+									type="button"
+									class="close"
+									data-dismiss="modal"
+									aria-label="Close"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form class="pb-4" id="form-create-data-prodi">
+									<div class="form-group">
+										<label for="input-nama-prodi-data-prodi">Nama Prodi</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-nama-prodi-data-prodi"
+											required
+											placeholder="Masukkan Nama Prodi"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-fakultas-data-prodi">Fakultas</label>
+										<input
+											type="number"
+											class="form-control"
+											id="input-fakultas-data-prodi"
+											required
+											placeholder="Masukkan Fakultas Prodi"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-jenjang-pendidikan-data-prodi"
+											>Jenjang Pendidikan</label
+										>
+										<input
+											type="number"
+											class="form-control"
+											id="input-jenjang-pendidikan-data-prodi"
+											required
+											placeholder="Masukkan Jenjang Pendidikan Prodi"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-universitas-data-prodi"
+											>Universitas</label
+										>
+										<input
+											type="number"
+											class="form-control"
+											id="input-universitas-data-prodi"
+											required
+											placeholder="Masukkan Universitas Prodi"
+										/>
+									</div>
+									<button
+										type="submit"
+										class="btn btn-primary"
+										id="submit-create-data-prodi"
+									>
+										Submit
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					class="modal fade"
+					id="modal-create-data-fakultas"
+					tabindex="-1"
+					aria-labelledby="modal-create-data-fakultas-label"
+					aria-hidden="true"
+				>
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-create-data-fakultas-label">
+									Create Data Fakultas
+								</h5>
+								<button
+									type="button"
+									class="close"
+									data-dismiss="modal"
+									aria-label="Close"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form class="pb-4" id="form-create-data-fakultas">
+									<div class="form-group">
+										<label for="input-nama-fakultas-data-fakultas">Nama Fakultas</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-nama-fakultas-data-fakultas"
+											required
+											placeholder="Masukkan Nama Fakultas"
+										/>
+									</div>
+									<button
+										type="submit"
+										class="btn btn-primary"
+										id="submit-create-data-fakultas"
+									>
+										Submit
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					class="modal fade"
+					id="modal-create-data-jenjang-pendidikan"
+					tabindex="-1"
+					aria-labelledby="modal-create-data-jenjang-pendidikan-label"
+					aria-hidden="true"
+				>
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-create-data-jenjang-pendidikan-label">
+									Create Data Jenjang Pendidikan
+								</h5>
+								<button
+									type="button"
+									class="close"
+									data-dismiss="modal"
+									aria-label="Close"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form class="pb-4" id="form-create-data-jenjang-pendidikan">
+									<div class="form-group">
+										<label for="input-nama-jenjang-data-jenjang-pendidikan">Nama Jenjang</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-nama-jenjang-data-jenjang-pendidikan"
+											required
+											placeholder="Masukkan Nama Jenjang"
+										/>
+									</div>
+									<button
+										type="submit"
+										class="btn btn-primary"
+										id="submit-create-data-jenjang-pendidikan"
+									>
+										Submit
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					class="modal fade"
+					id="modal-create-data-universitas"
+					tabindex="-1"
+					aria-labelledby="modal-create-data-universitas-label"
+					aria-hidden="true"
+				>
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-create-data-universitas-label">
+									Create Data Universitas
+								</h5>
+								<button
+									type="button"
+									class="close"
+									data-dismiss="modal"
+									aria-label="Close"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form class="pb-4" id="form-create-data-universitas">
+									<div class="form-group">
+										<label for="input-nama-universitas-data-universitas">Nama Universitas</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-nama-universitas-data-universitas"
+											required
+											placeholder="Masukkan Nama Universitas"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-tanggal-berdiri-data-universitas">Tanggal Berdiri</label>
+										<input
+											type="date"
+											class="form-control"
+											id="input-tanggal-berdiri-data-universitas"
+											required
+											placeholder="Masukkan Tanggal Berdiri"
+										/>
+									</div>
+									<div class="form-group">
+										<label for="input-alamat-data-universitas">Alamat</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-alamat-data-universitas"
+											required
+											placeholder="Masukkan Alamat Universitas"
+										/>
+									</div>
+									<button
+										type="submit"
+										class="btn btn-primary"
+										id="submit-create-data-universitas"
+									>
+										Submit
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					class="modal fade"
+					id="modal-create-data-jenis-universitas"
+					tabindex="-1"
+					aria-labelledby="modal-create-data-jenis-universitas-label"
+					aria-hidden="true"
+				>
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-create-data-jenis-universitas-label">
+									Create Data Jenis Universitas
+								</h5>
+								<button
+									type="button"
+									class="close"
+									data-dismiss="modal"
+									aria-label="Close"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form class="pb-4" id="form-create-data-jenis-universitas">
+									<div class="form-group">
+										<label for="input-nama-jenis-universitas-data-jenis-universitas">Nama Jenis Universitas</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-nama-jenis-universitas-data-jenis-universitas"
+											required
+											placeholder="Masukkan Nama Jenis Universitas"
+										/>
+									</div>
+									<button
+										type="submit"
+										class="btn btn-primary"
+										id="submit-create-data-jenis-universitas"
+									>
+										Submit
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					class="modal fade"
+					id="modal-create-data-alamat-universitas"
+					tabindex="-1"
+					aria-labelledby="modal-create-data-alamat-universitas-label"
+					aria-hidden="true"
+				>
+					<div
+						class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+					>
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-create-data-alamat-universitas-label">
+									Create Data Alamat Universitas
+								</h5>
+								<button
+									type="button"
+									class="close"
+									data-dismiss="modal"
+									aria-label="Close"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form class="pb-4" id="form-create-data-alamat-universitas">
+									<div class="form-group">
+										<label for="input-alamat-universitas-data-alamat-universitas">Alamat Universitas</label>
+										<input
+											type="text"
+											class="form-control"
+											id="input-alamat-universitas-data-alamat-universitas"
+											required
+											placeholder="Masukkan Alamat Universitas"
+										/>
+									</div>
+									<button
+										type="submit"
+										class="btn btn-primary"
+										id="submit-create-data-alamat-universitas"
+									>
+										Submit
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="modal-update-data">
+				<div id="modal-update-data-mahasiswa">
+					<!-- Isi Data -->
+				</div>
+				<div id="modal-update-data-prodi">
+					<!-- Isi Data -->
+				</div>
+				<div id="modal-update-data-fakultas">
+					<!-- Isi Data -->
+				</div>
+				<div id="modal-update-data-jenjang-pendidikan">
+					<!-- Isi Data -->
+				</div>
+				<div id="modal-update-data-universitas">
+					<!-- Isi Data -->
+				</div>
+				<div id="modal-update-data-jenis-universitas">
+					<!-- Isi Data -->
+				</div>
+				<div id="modal-update-data-alamat-universitas">
+					<!-- Isi Data -->
+				</div>
+			</div>
+		</div>
+
+		<script src="./script.js"></script>
+	</body>
+</html>

@@ -1,0 +1,93 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+#wrapper {
+	overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+	min-height: 100vh;
+	margin-left: -15rem;
+	-webkit-transition: margin 0.25s ease-out;
+	-moz-transition: margin 0.25s ease-out;
+	-o-transition: margin 0.25s ease-out;
+	transition: margin 0.25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+	padding: 0.875rem 1.25rem;
+	font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+	width: 15rem;
+}
+
+#page-content-wrapper {
+	min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+	margin-left: 0;
+}
+
+@media (min-width: 768px) {
+	#sidebar-wrapper {
+		margin-left: 0;
+	}
+
+	#page-content-wrapper {
+		min-width: 0;
+		width: 100%;
+	}
+
+	#wrapper.toggled #sidebar-wrapper {
+		margin-left: -15rem;
+	}
+}
+
+#button-create-data-mahasiswa,
+#button-create-data-prodi,
+#button-create-data-fakultas,
+#button-create-data-jenjang-pendidikan,
+#button-create-data-universitas,
+#button-create-data-jenis-universitas,
+#button-create-data-alamat-universitas {
+	position: fixed;
+	width: 60px;
+	height: 60px;
+	bottom: 40px;
+	right: 40px;
+	background-color: #0c9;
+	color: #fff;
+	border-radius: 50px;
+	text-align: center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float {
+	margin-top: 6px;
+}
+
+#showed-data-mahasiswa,
+#showed-data-prodi,
+#showed-data-fakultas,
+#showed-data-jenjang-pendidikan,
+#showed-data-universitas,
+#showed-data-jenis-universitas,
+#showed-data-alamat-universitas {
+	width: 30%;
+}
+@media screen and (max-width: 992px) {
+	#showed-data-mahasiswa,
+	#showed-data-prodi,
+	#showed-data-fakultas,
+	#showed-data-jenjang-pendidikan,
+	#showed-data-universitas,
+	#showed-data-jenis-universitas,
+	#showed-data-alamat-universitas {
+		width: 70%;
+	}
+}
